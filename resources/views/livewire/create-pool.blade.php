@@ -17,7 +17,12 @@
         <div>
             @foreach ($options as $index => $option)
             <div class="mb-4">
-                {{ $index }} - {{ $option }}
+                <label>Option {{ $index + 1 }}</label>
+                <div class="flex gap-2">
+                    <input type="text" wire:model="options.{{ $index }}" /> {{-- to make the options.{{ $index }} (each index of the options array) wired --}}
+                    <button class="btn"
+                        wire:click.prevent="removeOption({{ $index }})">Remove</button> {{-- prevent the submit and call the removeOption action with $indix paramiter from the CreatePool class --}}
+                </div>
             </div>
             @endforeach
         </div>

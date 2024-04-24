@@ -19,4 +19,10 @@ class CreatePool extends Component // created by this command (php artisan make:
     {
         $this->options[] = ''; // $this->options[] to add this value ('') at the end of this array
     }
+
+    public function removeOption($index)
+    {
+        unset($this->options[$index]); // to remove element from the array
+        $this->options = array_values($this->options); // to re generete the indexes of the array (remove the gaps of deleted elements)
+    }
 }
