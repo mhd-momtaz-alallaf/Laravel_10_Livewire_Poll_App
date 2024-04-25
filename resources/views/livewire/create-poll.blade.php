@@ -14,6 +14,9 @@
 
         <div class="mb-4 mt-4">
             <button class="btn" wire:click.prevent="addOption">Add Option</button> {{-- click.prevent will prevent the html behavior from submit the form with each click, insted call this livewire action (addOption) from the component class --}}
+            @error("options") {{-- to display the errors of the options array passed from the CreatePoll Class --}}
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
         </div>
         
       
