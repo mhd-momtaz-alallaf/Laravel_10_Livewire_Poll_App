@@ -29,14 +29,18 @@ class CreatePoll extends Component // created by this command (php artisan make:
 
     public function createPoll()
     {
-        $poll = Poll::create([                                  // 1- create a new poll with this title
+        Poll::create([                                  // 1- create a new poll with this title
             'title' => $this->title
-        ]);
+        ])->options()->createMany( // more laravel way to assosiate all options to the created poll, so we will use createMany to create more than one relation
+            collect($this->options) // convert the options array to a collection to use the map collection method.
+                ->map(fn($option) => ['name' => $option]) // map method allow us to access each collection item and perform some opperations on it, so we will convert each option item to array have key name and its value, so now the map have a collection object (options) that have array of arrays
+                ->all() // to convert the final collection to an array beacause createMany() accepts arrays.
+        );
 
-        foreach ($this->options as $optionName) {
-            $poll->options()->create(['name' => $optionName]);  // 2- assosiate all options to the created poll by options() relation 
-        }
+        // foreach ($this->options as $optionName) {    // 2- assosiate all options to the created poll by options() relation 
+        //     $poll->options()->create(['name' => $optionName]);  
+        // }
 
-        $this->reset(['title', 'options']);                     // 3- Livewire method to resete the form after creating each poll.
+        $this->reset(['title', 'options']);             // 3- Livewire method to resete the form after creating each poll.
     }
 }
