@@ -37,6 +37,11 @@ class CreatePoll extends Component // created by this command (php artisan make:
         $this->options = array_values($this->options); // to re generete the indexes of the array (remove the gaps of deleted elements)
     }
 
+    public function updated($propertyName) // livewire method to have a realtime validation for all class properties (just if any property updated it will only update the validation for it)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function createPoll()
     {
         $this->validate(); // will validate the request with the rules specified in the rules() method
