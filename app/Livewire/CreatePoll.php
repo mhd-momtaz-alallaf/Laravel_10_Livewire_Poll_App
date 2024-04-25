@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Poll;
 use Livewire\Component;
 
 class CreatePoll extends Component // created by this command (php artisan make:livewire CreatePoll).
@@ -28,6 +29,14 @@ class CreatePoll extends Component // created by this command (php artisan make:
 
     public function createPoll()
     {
-        
+        $poll = Poll::create([                                  // 1- create a new poll with this title
+            'title' => $this->title
+        ]);
+
+        foreach ($this->options as $optionName) {
+            $poll->options()->create(['name' => $optionName]);  // 2- assosiate all options to the created poll by options() relation 
+        }
+
+        $this->reset(['title', 'options']);                     // 3- Livewire method to resete the form after creating each poll.
     }
 }
