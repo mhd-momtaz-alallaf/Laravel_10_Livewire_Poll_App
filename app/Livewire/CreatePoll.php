@@ -11,6 +11,16 @@ class CreatePoll extends Component // created by this command (php artisan make:
 
     public $options = ['First'];
 
+    protected $rules = [ // add validation rules here 
+        'title' => 'required|min:3|max:255',
+        'options' => 'required|array|min:1|max:10', // to add validation rules to the array itself (min one option, max 10 options)
+        'options.*' => 'required|min:1|max:255' // 'options.*' to add validation rules for each element of the options array (for each option)
+    ];
+
+    protected $messages = [ // specify a custom error message for a specified property
+        'options.*' => 'The option can\'t be empty.' // a custom error message for each option in the options array
+    ];
+
     public function render()
     {
         return view('livewire.create-poll');
@@ -29,6 +39,8 @@ class CreatePoll extends Component // created by this command (php artisan make:
 
     public function createPoll()
     {
+        $this->validate(); // will validate the request with the rules specified in the rules() method
+
         Poll::create([                                  // 1- create a new poll with this title
             'title' => $this->title
         ])->options()->createMany( // more laravel way to assosiate all options to the created poll, so we will use createMany to create more than one relation
