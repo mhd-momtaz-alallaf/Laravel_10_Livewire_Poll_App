@@ -11,13 +11,13 @@ class CreatePoll extends Component // created by this command (php artisan make:
 
     public $options = ['First'];
 
-    protected $rules = [ // add validation rules here 
+    protected $rules = [ // livewire array to add validation rules 
         'title' => 'required|min:3|max:255',
         'options' => 'required|array|min:1|max:10', // to add validation rules to the array itself (min one option, max 10 options)
         'options.*' => 'required|min:1|max:255' // 'options.*' to add validation rules for each element of the options array (for each option)
     ];
 
-    protected $messages = [ // specify a custom error message for a specified property
+    protected $messages = [ // livewire array to specify a custom error message for a specified property
         'options.*' => 'The option can\'t be empty.' // a custom error message for each option in the options array
     ];
 
@@ -35,6 +35,11 @@ class CreatePoll extends Component // created by this command (php artisan make:
     {
         unset($this->options[$index]); // to remove element from the array
         $this->options = array_values($this->options); // to re generete the indexes of the array (remove the gaps of deleted elements)
+    }
+
+    public function updated($propertyName) // livewire method to have a realtime validation for all class properties (just if any property updated it will only update the validation for it)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function createPoll()
