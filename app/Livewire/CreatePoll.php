@@ -59,5 +59,7 @@ class CreatePoll extends Component // created by this command (php artisan make:
         // }
 
         $this->reset(['title', 'options']);             // 3- Livewire method to resete the form after creating each poll.
+        
+        $this->dispatch('pollCreated'); // a livewire method to tell all another components that there is a new event (new poll is created), so this will make a comunication between components to show the data added in the CreatePoll class in realtime in the Polls class, to do that we have to make an event lestener in the polls class.
     }
 }
